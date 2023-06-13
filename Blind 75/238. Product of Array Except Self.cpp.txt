@@ -1,0 +1,24 @@
+class Solution {
+public:
+// time: O(n)
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int productVal = 1;
+        int zeroCount = count(nums.begin(), nums.end(), 0);
+        if(zeroCount > 1)
+            return vector<int>(nums.size(), 0);
+
+
+        for(auto i: nums) {
+            if(i)
+               productVal *= i;
+        }
+
+        for(auto &i: nums) {
+            if(zeroCount) 
+                i = i ? 0 : productVal;
+            else
+                i = productVal/i;
+        }
+        return nums;
+    }
+};
