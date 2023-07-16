@@ -80,33 +80,20 @@ class Solution {
         }  
         
     }
-  /***************Using Recursion-incomplete****************/  
-    ListNode *mergeList(ListNode *head1, ListNode *head2) {
-        if(!head1 or head2)
-            return !head1?head2:head1;
-        
-        ListNode *head1_temp = head1->next, *head = head1;
-        head1->next = head2;
-        head1 = head1->next;
-        head1->next = mergeList(head1_temp, head2->next);
-        return head;
-    }
-    
+  /***************Using Recursion-incomplete****************/      
     void reorderListRec(ListNode* head) {
-        if(!head or !head->next)
+        if(!head or !head->next or !head->next->next)
             return;
         
-        // finding mid of list
-        ListNode *slow = head, *fast = head;
-        while(fast and fast->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
+        ListNode *secondLastNode = head;
+        while(secondLastNode->next->next) 
+            secondLastNode = secondLastNode->next;
         
-        ListNode *head1 = head, *head2 = slow->next;
-        slow->next = NULL;
+        secondLastNode->next->next = head->next;
+        head->next = secondLastNode->next;
+        secondLastNode->next = NULL;
         
-        head = mergeList(head1, head2);
+        reorderListRec(head->next->next);
     }
     
 public:
